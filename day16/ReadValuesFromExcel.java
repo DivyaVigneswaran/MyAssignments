@@ -9,10 +9,10 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ReadValuesFromExcel {
 
-	public static void main(String[] args) throws IOException {
+	public static String[][] getValue(String filename) throws IOException {
 
 		// Step1: Settingup the excel file / workBook
-		XSSFWorkbook wb = new XSSFWorkbook("./ReadExcel/CreateLead.xlsx");
+		XSSFWorkbook wb = new XSSFWorkbook("./ReadExcel/"+filename+".xlsx");
 
 		// Step2: to get the sheet from the wb
 		XSSFSheet sheet = wb.getSheetAt(0);
@@ -42,7 +42,11 @@ public class ReadValuesFromExcel {
 		short lastCellNum = sheet.getRow(2).getLastCellNum();
 		System.out.println(lastCellNum);
 
-		// store the cell values
+		// Common integrations
+		// count of the cell value/column
+		String[][] data = new String[lastRowNum][lastCellNum];
+
+		// To store the rows and Columns
 		XSSFCell cell = row.getCell(1);
 
 		// OuterLoop is for rows
@@ -52,10 +56,12 @@ public class ReadValuesFromExcel {
 			for (int j = 0; j < lastCellNum; j++) {
 				String stringCellValue = sheet.getRow(i).getCell(j).getStringCellValue();
 				System.out.println(stringCellValue);
-			}
+				data[i-1][j]= stringCellValue;
 
+			}
 		}
+		wb.close();
+		return data;
 
 	}
-
 }
